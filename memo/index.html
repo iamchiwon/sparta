@@ -60,7 +60,23 @@
         border: solid;
         display: block;
       }
+      #post-box {
+        display: none;
+      }
     </style>
+    <script>
+      let count = 1;
+      function hey() {
+        count = 1 - count;
+        if (count == 0) {
+          $("#toggle_button").html("포스팅박스 닫기");
+          $("#post-box").show();
+        } else {
+          $("#toggle_button").html("포스팅박스 열기");
+          $("#post-box").hide();
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="wrap">
@@ -71,7 +87,12 @@
         </p>
         <hr class="my-4" />
         <p class="lead">
-          <a class="btn btn-primary btn-lg" href="#" role="button"
+          <a
+            class="btn btn-primary btn-lg"
+            href="#"
+            role="button"
+            id="toggle_button"
+            onclick="hey()"
             >포스팅박스 열기</a
           >
         </p>

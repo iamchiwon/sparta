@@ -30,6 +30,18 @@
     </style>
 
     <title>Hello, world!</title>
+
+    <script>
+      let num = 0;
+      function hey() {
+        num = 1 - num;
+        if (num == 0) {
+          $("#shop_title").show();
+        } else {
+          $("#shop_title").hide();
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="container">
@@ -39,7 +51,7 @@
         />
       </div>
       <div class="row">
-        <h1>테슬라를 팝니다.</h1>
+        <h1 id="shop_title">테슬라를 팝니다.</h1>
       </div>
       <div class="row">
         <div class="input-group mb-3">
@@ -54,7 +66,9 @@
           />
         </div>
         <div>
-          <button type="button" class="btn btn-primary">주문하기</button>
+          <button type="button" class="btn btn-primary" onclick="hey()">
+            주문하기
+          </button>
         </div>
       </div>
     </div>
