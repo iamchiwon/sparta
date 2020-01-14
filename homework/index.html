@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Webpage Title -->
+    <title>나홀로 쇼핑몰</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -11,84 +14,225 @@
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- 구글폰트 -->
     <link
       href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
       rel="stylesheet"
     />
 
-    <style>
+    <script type="text/javascript">
+      let orders = [];
+
+      function isCellPhone(p) {
+        var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+        return regExp.test(p);
+      }
+
+      function order() {
+        let name = $("#order_name").val();
+        let count = $("#order_count").val();
+        let address = $("#order_address").val();
+        let phone = $("#order_phone").val();
+
+        if (name == "") {
+          alert("이름을 입력해주세요");
+          $("#order_name").focus();
+          return;
+        } else if (count == "") {
+          alert("수량을 입력해주세요");
+          $("#order_count").focus();
+          return;
+        } else if (address == "") {
+          alert("주소를 입력해주세요");
+          $("#order_address").focus();
+          return;
+        } else if (phone == "") {
+          alert("휴대폰번호를 입력해주세요");
+          $("#order_phone").focus();
+          return;
+        } else if (!isCellPhone(phone)) {
+          alert(
+            "휴대폰번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요"
+          );
+          return;
+        }
+
+        let list = {
+          name: name,
+          count: count,
+          address: address,
+          phone: phone
+        };
+        orders.push(list);
+        updateList();
+      }
+
+      function updateList() {
+        $("#orders-box").html("");
+        listing();
+      }
+
+      function listing() {
+        for (let i = 0; i < orders.length; i++) {
+          make_card(
+            orders[i]["name"],
+            orders[i]["count"],
+            orders[i]["address"],
+            orders[i]["phone"]
+          );
+        }
+      }
+
+      function make_card(name, count, address, phone) {
+        let temp_html =
+          "<tr>\
+            <td>" +
+          name +
+          "</td>\
+            <td>" +
+          count +
+          "</td>\
+            <td>" +
+          address +
+          "</td>\
+            <td>" +
+          phone +
+          "</td>\
+          </tr>";
+        $("#orders-box").append(temp_html);
+      }
+    </script>
+
+    <style type="text/css">
       * {
         font-family: "Stylish", sans-serif;
       }
-      .container {
-        width: 600px;
+      .wrap {
+        width: 500px;
+        margin: auto;
+      }
+      .img {
+        background-image: url("https://www.conscious-skincare.com/wp-content/uploads/2016/02/glc-candle-lit-with-new-gift-box.jpg");
+        background-size: cover;
+        background-position: center;
+        width: 500px;
+        height: 300px;
+      }
+      .info {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .user-info {
+        margin: 20px 5px auto 5px;
+      }
+      h1,
+      h5 {
+        display: inline;
+      }
+      .order {
+        text-align: center;
+      }
+      .orders {
+        margin-top: 100px;
       }
     </style>
-
-    <title>Hello, world!</title>
-
-    <script>
-      let num = 0;
-      function hey() {
-        num = 1 - num;
-        if (num == 0) {
-          $("#shop_title").show();
-        } else {
-          $("#shop_title").hide();
-        }
-      }
-    </script>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <img
-          src="https://post-phinf.pstatic.net/MjAxOTA0MjNfMjg2/MDAxNTU2MDE3OTA3MDcw.4NilzclPbgW08aTmxtqNLV-krrnX8pBaONRDTh2BCfUg.CXq1-G2lsgQ9xzKvTBR-wOCrZQGmaMvl8YvaMCqfRnog.JPEG/51038_132266_5542.jpg?type=w1200"
-        />
+    <div class="wrap">
+      <div class="img"></div>
+      <div class="info">
+        <h1>양초를 팝니다</h1>
+        <h5>가격: 3,000원/개</h5>
+        <p>
+          이 양초는 사실 특별한 힘을 가지고 있어요. 양초를 켜고 소원을 빌면
+          짜자잔 뭐든지 이뤄지게 된답니다. 하나 사가세요! 대나무 향이 아주
+          좋아요
+        </p>
       </div>
-      <div class="row">
-        <h1 id="shop_title">테슬라를 팝니다.</h1>
-      </div>
-      <div class="row">
+      <div class="info">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">주문자이름</span>
+            <span class="input-group-text" id="basic-addon3">주문자 이름</span>
           </div>
           <input
             type="text"
             class="form-control"
-            id="basic-url"
+            id="order_name"
             aria-describedby="basic-addon3"
           />
         </div>
-        <div>
-          <button type="button" class="btn btn-primary" onclick="hey()">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01"
+              >수량</label
+            >
+          </div>
+          <select class="custom-select" id="order_count">
+            <option selected value=""> -- 수량을 선택하세요 -- </option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">주소</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="order_address"
+            aria-describedby="basic-addon3"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">전화번호</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="order_phone"
+            aria-describedby="basic-addon3"
+          />
+        </div>
+        <div class="order">
+          <button onclick="order()" type="button" class="btn btn-primary">
             주문하기
           </button>
         </div>
       </div>
+      <div class="orders">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">이름</th>
+              <th scope="col">수량</th>
+              <th scope="col">주소</th>
+              <th scope="col">전화번호</th>
+            </tr>
+          </thead>
+          <tbody id="orders-box"></tbody>
+        </table>
+      </div>
     </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
   </body>
 </html>
