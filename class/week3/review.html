@@ -41,8 +41,11 @@
         <button type="button" class="btn btn-dark" onclick="buttonPressed()">
           보내기
         </button>
-        <button type="button" class="btn btn-normal" onclick="getOrderList()">
+        <button type="button" class="btn btn-success" onclick="getOrderList()">
           주문정보 읽기
+        </button>
+        <button type="button" class="btn btn-primary" onclick="putOrderItem()">
+          주문 생성하기
         </button>
       </div>
       <hr />
@@ -57,16 +60,45 @@
       function getOrderList() {
         $.ajax({
           type: "GET",
-          url: "http://spartacodingclub.shop/order",
+          url: "http://spartacodingclub.shop/post",
           data: {},
           success: function(response) {
-            let orders = response["orders"];
+            let orders = response["articles"];
             $("#order-list").html("");
             for (let i = 0; i < orders.length; i++) {
-              let name = orders[i]["name"];
-              let phone = orders[i]["phone"];
-              $("#order-list").append("<li>" + name + " / " + phone + "</li>");
+              let card = makeCard(orders[i]);
+              $("#order-list").append(card);
             }
+          }
+        });
+      }
+
+      function makeCard(post) {
+        let tags = `
+        <div class="card" style="width: 18rem;">
+        <img src="${post.image}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">${post.title}</h5>
+            <p class="card-text">${post.comment}</p>
+            <a href="${post.url}" class="btn btn-primary">Go somewhere</a>
+        </div>
+        </div>
+        `;
+        return tags;
+      }
+
+      function putOrderItem() {
+        $.ajax({
+          type: "POST",
+          url: "http://spartacodingclub.shop/order",
+          data: {
+            name_give: "펭수2",
+            count_give: 1,
+            address_give: "남극 우리집",
+            phone_give: "010-1111-2222"
+          },
+          success: function(response) {
+            getOrderList();
           }
         });
       }
